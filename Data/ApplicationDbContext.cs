@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ToDoApp.Models;
 
 namespace ToDoApp.Data
 {
@@ -9,5 +10,6 @@ namespace ToDoApp.Data
             : base(options)
         {
         }
+        public DbSet<ToDoItem> ToDoItems { get; set; }
     }
 }
