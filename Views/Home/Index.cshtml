@@ -1,13 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div class="text-center">
-    <h1 style="font-size: 70px; padding-top: 130px; color: white">Welcome to your personal To Do List!</h1>
-    <p style="font-size: 24px; color: white"> <strong>Please log in to your account to view your list.</strong></p>
 
+<div class="text-center">
+    <div class="message-box">
+        <h1 style="font-size: 70px; padding-top: 0px; color: black">Welcome to your personal To Do List!</h1>
+        <p style="font-size: 24px; color:  black"> <strong>Please log in to your account to view your list.</strong></p>
+    </div>
 </div>
 
 <style>
+
     body {
         position: relative;
         background-image: url('https://images.unsplash.com/photo-1644329843491-99edfc83de04?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHRvJTIwZG8lMjBsaXN0fGVufDB8fDB8fHww');
@@ -16,4 +19,20 @@
         background-repeat: no-repeat;
         height: 80hv;
     }
+
+    .message-box {
+        background-color: rgba(211, 211, 211, 0.7); /* Леко сив цвят */
+        border-radius: 15px; /* Заоблени ъгли */
+        padding: 40px; /* Увеличаваме padding, за да имаш пространство в кутията */
+        display: block; /* За да се разтяга кутията вертикално */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Добавяме сянка на самата кутийка */
+        position: absolute; /* Позволяваме на кутийката да бъде позиционирана свободно */
+        top: 170px; /* Премества кутията надолу */
+        left: 50%; /* Центрираме я хоризонтално */
+        transform: translateX(-50%); /* Точно центриране на кутийката */
+        width: 80%; /* Ширината е гъвкава на 80% */
+        height: auto; /* Автоматична височина според съдържанието */
+        max-width: 1000px; /* Ограничаваме максималната ширина */
+    }
+
 </<style >
