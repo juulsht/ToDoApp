@@ -6,21 +6,32 @@ namespace ToDoApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)  // <-- make Main async
         {
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()                 // <-- add role support here
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            // Seed roles and admin user
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                await DbInitializer.SeedRolesAndAdminAsync(services);
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -30,7 +41,6 @@ namespace ToDoApp
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -39,6 +49,7 @@ namespace ToDoApp
 
             app.UseRouting();
 
+            app.UseAuthentication();      // <-- add authentication middleware
             app.UseAuthorization();
 
             app.MapControllerRoute(
