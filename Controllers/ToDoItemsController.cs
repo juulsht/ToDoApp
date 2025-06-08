@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ToDoApp.Data;
 using ToDoApp.Models;
+using Microsoft.AspNetCore.Authorization;  // Added for [Authorize]
 
 namespace ToDoApp.Controllers
 {
@@ -50,8 +51,6 @@ namespace ToDoApp.Controllers
         }
 
         // POST: ToDoItems/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Task,IsComplete")] ToDoItem toDoItem)
@@ -82,8 +81,6 @@ namespace ToDoApp.Controllers
         }
 
         // POST: ToDoItems/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Task,IsComplete")] ToDoItem toDoItem)
@@ -117,6 +114,7 @@ namespace ToDoApp.Controllers
         }
 
         // GET: ToDoItems/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +135,7 @@ namespace ToDoApp.Controllers
         // POST: ToDoItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var toDoItem = await _context.ToDoItems.FindAsync(id);
